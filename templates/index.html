@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Car Price Dekho</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;500;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --bg: #F2F0ED;
+    --bg-alt: #ECEAE6;
+    --surface: #FFFFFF;
+    --border: #D8D5D0;
+    --border-dark: #C0BDB8;
+    --ferrari: #DC0000;
+    --ferrari-dim: rgba(220, 0, 0, 0.08);
+    --ink: #111111;
+    --ink-mid: #444444;
+    --ink-muted: #888888;
+    --ink-faint: #BBBBBB;
+}
+
+html { scroll-behavior: smooth; }
+body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Barlow', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ══════════════════════════════════════════
+   SECTION 1 — HOME
+══════════════════════════════════════════ */
+#home-section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.ferrari-stripe {
+    height: 5px;
+    background: var(--ferrari);
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 3rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+}
+
+.nav-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+}
+.nav-brand span { color: var(--ferrari); }
+
+.nav-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+}
+
+/* ── HERO — fully centered ── */
+.hero {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+/* Starting lights */
+.lights-container {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 3.5rem;
+    justify-content: center;
+}
+
+.light-pod {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.light-stem {
+    width: 3px;
+    height: 22px;
+    background: var(--border-dark);
+    border-radius: 2px;
+}
+
+.light-circle {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #E0DDD9;
+    border: 2px solid var(--border);
+    transition: background 0.06s ease, border-color 0.06s ease, box-shadow 0.06s ease;
+}
+
+.light-circle.on {
+    background: var(--ferrari);
+    border-color: #ff3333;
+    box-shadow: 0 0 12px rgba(220,0,0,0.75), 0 0 28px rgba(220,0,0,0.35);
+}
+
+.light-circle.out {
+    background: #CFCCC8;
+    border-color: var(--border-dark);
+    box-shadow: none;
+}
+
+/* Hero text */
+.hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5.5rem, 13vw, 10rem);
+    line-height: 0.88;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 3.4s forwards;
+}
+
+.hero-title .accent { color: var(--ferrari); }
+
+.hero-desc {
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: var(--ink-mid);
+    line-height: 1.7;
+    max-width: 400px;
+    margin: 0 auto 2.8rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 3.6s forwards;
+}
+
+/* CTA */
+.cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1rem 2.8rem;
+    background: var(--ferrari);
+    color: #fff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 0.12em;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 100%, 14px 100%);
+    opacity: 0;
+    animation: fadeUp 0.6s ease 3.8s forwards;
+}
+
+.cta-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.14);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+.cta-btn:hover::after { transform: scaleX(1); }
+.cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(220,0,0,0.3); }
+.cta-btn:active { transform: translateY(0); }
+
+.cta-icon {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255,255,255,0.55);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    transition: transform 0.3s ease;
+}
+.cta-btn:hover .cta-icon { transform: translateX(4px); }
+
+/* Footer */
+.home-footer {
+    padding: 1.4rem 3rem;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    opacity: 0;
+    animation: fadeIn 0.6s ease 4s forwards;
+}
+
+.footer-note {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+}
+
+/* ══════════════════════════════════════════
+   TRANSITION OVERLAY
+══════════════════════════════════════════ */
+#transition-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    pointer-events: none;
+    opacity: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.transition-panel {
+    position: absolute;
+    inset: 0;
+    background: var(--ferrari);
+    transform: scaleX(0);
+    transform-origin: left;
+}
+
+.transition-go {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20vw;
+    color: rgba(255,255,255,0.15);
+    letter-spacing: -0.01em;
+    opacity: 0;
+    position: relative;
+    z-index: 1;
+    line-height: 1;
+    user-select: none;
+}
+
+/* ══════════════════════════════════════════
+   SECTION 2 — FORM
+══════════════════════════════════════════ */
+#form-section {
+    display: none;
+    min-height: 100vh;
+    background: var(--bg);
+    flex-direction: column;
+}
+
+.form-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 3rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.form-nav-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+}
+.form-nav-brand span { color: var(--ferrari); }
+
+.back-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 0;
+}
+.back-link:hover { color: var(--ferrari); }
+
+.form-nav-step {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+}
+
+.form-body {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    width: 100%;
+}
+
+.form-heading { margin-bottom: 2.5rem; }
+
+.form-heading-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ferrari);
+    margin-bottom: 0.5rem;
+}
+
+.form-heading h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    letter-spacing: 0.03em;
+    line-height: 1;
+    color: var(--ink);
+}
+
+.section-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+    margin-top: 2.5rem;
+}
+
+.section-divider-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    white-space: nowrap;
+}
+
+.section-divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.field { display: flex; flex-direction: column; gap: 0.45rem; }
+.field.span-2 { grid-column: span 2; }
+
+label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+}
+
+input[type="number"],
+input[type="text"],
+select {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0;
+    color: var(--ink);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.75rem 1rem;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+input:focus, select:focus {
+    border-color: var(--ferrari);
+    box-shadow: 0 0 0 3px var(--ferrari-dim);
+}
+
+input::placeholder { color: var(--ink-faint); }
+select option { background: var(--surface); color: var(--ink); }
+
+.select-wrap { position: relative; }
+.select-wrap::after {
+    content: '▾';
+    position: absolute;
+    right: 0.9rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.75rem;
+    color: var(--ferrari);
+    pointer-events: none;
+}
+
+.calc-btn {
+    width: 100%;
+    margin-top: 2rem;
+    padding: 1.1rem;
+    background: var(--ink);
+    color: var(--bg);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.12em;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.2s ease;
+    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 100%, 18px 100%);
+}
+
+.calc-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--ferrari);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.77,0,0.175,1);
+    z-index: 0;
+}
+
+.calc-btn span { position: relative; z-index: 1; }
+.calc-btn:hover::before { transform: scaleX(1); }
+.calc-btn:hover { box-shadow: 0 6px 24px rgba(220,0,0,0.2); }
+.calc-btn.loading { pointer-events: none; opacity: 0.6; }
+
+/* ══════════════════════════════════════════
+   SECTION 3 — RESULT
+══════════════════════════════════════════ */
+#result-section {
+    display: none;
+    min-height: 100vh;
+    background: var(--bg);
+    flex-direction: column;
+}
+
+.result-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 3rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.result-nav-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+}
+.result-nav-brand span { color: var(--ferrari); }
+
+.result-body {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    width: 100%;
+}
+
+.result-reveal {
+    margin-bottom: 4rem;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.result-reveal.show { opacity: 1; transform: translateY(0); }
+
+.result-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 0.5rem;
+}
+
+.result-car-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    letter-spacing: 0.05em;
+    color: var(--ink-mid);
+    margin-bottom: 0.5rem;
+}
+
+.result-price-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    border-left: 4px solid var(--ferrari);
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.result-currency {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--ferrari);
+    line-height: 1;
+}
+
+.result-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 12vw, 8rem);
+    line-height: 0.9;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    opacity: 0;
+    transform: scale(0.92);
+    transition: opacity 0.5s ease 0.3s, transform 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.3s;
+}
+.result-price.show { opacity: 1; transform: scale(1); }
+
+.result-sub {
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--ink-muted);
+    margin-top: 0.75rem;
+    padding-left: 1.5rem;
+}
+
+.result-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    padding-left: 1.5rem;
+    opacity: 0;
+    transition: opacity 0.5s ease 0.6s;
+}
+.result-actions.show { opacity: 1; }
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.75rem 1.8rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1px solid var(--border-dark);
+    background: var(--surface);
+    color: var(--ink-mid);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.action-btn:hover { border-color: var(--ferrari); color: var(--ferrari); }
+.action-btn.primary { background: var(--ferrari); color: white; border-color: var(--ferrari); }
+.action-btn.primary:hover { background: #b80000; border-color: #b80000; color: white; }
+
+/* History */
+.history-wrap {
+    margin-top: 3rem;
+    opacity: 0;
+    transition: opacity 0.5s ease 0.8s;
+}
+.history-wrap.show { opacity: 1; }
+
+.history-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 0;
+}
+
+.history-head-left .sub {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ferrari);
+    margin-bottom: 0.25rem;
+}
+
+.history-head-left .title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    line-height: 1;
+}
+
+.clear-btn {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    background: none;
+    border: 1px solid var(--border-dark);
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.clear-btn:hover { border-color: var(--ferrari); color: var(--ferrari); }
+
+.table-scroll { overflow-x: auto; }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Barlow Condensed', sans-serif;
+    min-width: 700px;
+}
+
+thead tr { border-bottom: 1px solid var(--border); }
+
+th {
+    padding: 0.9rem 1rem;
+    text-align: left;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    white-space: nowrap;
+    background: var(--bg-alt);
+}
+th.price-col { color: var(--ferrari); }
+
+tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+tbody tr:hover { background: var(--bg-alt); }
+tbody tr:last-child { border-bottom: none; }
+
+td {
+    padding: 0.8rem 1rem;
+    font-size: 0.92rem;
+    color: var(--ink);
+    white-space: nowrap;
+}
+td.num-cell { color: var(--ink-faint); font-size: 0.75rem; }
+td.price-cell {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.15rem;
+    color: var(--ferrari);
+    letter-spacing: 0.04em;
+}
+
+.empty-state {
+    padding: 3rem 1rem;
+    text-align: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    border-top: 1px solid var(--border);
+    display: none;
+}
+.empty-state.show { display: block; }
+
+.new-row { animation: rowIn 0.5s ease forwards; }
+
+@keyframes rowIn {
+    from { background: rgba(220,0,0,0.06); }
+    to { background: transparent; }
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    .nav, .form-nav, .result-nav { padding: 1rem 1.5rem; }
+    .form-body, .result-body { padding: 2rem 1.5rem; }
+    .form-grid { grid-template-columns: 1fr; }
+    .field.span-2 { grid-column: span 1; }
+    .result-actions { flex-direction: column; }
+    .home-footer { padding: 1rem 1.5rem; }
+    .hero { padding: 3rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════
+     SECTION 1 — HOME
+══════════════════════════════ -->
+<section id="home-section">
+    <div class="ferrari-stripe"></div>
+
+    <nav class="nav">
+        <div class="nav-brand">Car Price <span>Dekho</span></div>
+        <div class="nav-tag">Price Intelligence</div>
+    </nav>
+
+    <div class="hero">
+
+        <!-- Starting lights — centered -->
+        <div class="lights-container" id="lights-container">
+            <div class="light-pod"><div class="light-stem"></div><div class="light-circle" id="l1"></div></div>
+            <div class="light-pod"><div class="light-stem"></div><div class="light-circle" id="l2"></div></div>
+            <div class="light-pod"><div class="light-stem"></div><div class="light-circle" id="l3"></div></div>
+            <div class="light-pod"><div class="light-stem"></div><div class="light-circle" id="l4"></div></div>
+            <div class="light-pod"><div class="light-stem"></div><div class="light-circle" id="l5"></div></div>
+        </div>
+
+        <h1 class="hero-title">
+            Know Your Car's<br>
+            <span class="accent">True</span> Value.
+        </h1>
+
+        <p class="hero-desc">
+            Enter your car's details and get an instant, data-driven market price estimate.
+        </p>
+
+        <button class="cta-btn" id="start-btn">
+            Calculate Price
+            <div class="cta-icon">→</div>
+        </button>
+
+    </div>
+
+    <footer class="home-footer">
+        <span class="footer-note">Car Price Dekho · India</span>
+        <span class="footer-note">DIT University · Sidhant Mani Tiwari</span>
+    </footer>
+</section>
+
+<!-- ══════════════════════════════
+     TRANSITION OVERLAY
+══════════════════════════════ -->
+<div id="transition-overlay">
+    <div class="transition-panel" id="transition-panel"></div>
+    <div class="transition-go" id="transition-go">GO</div>
+</div>
+
+<!-- ══════════════════════════════
+     SECTION 2 — FORM
+══════════════════════════════ -->
+<section id="form-section">
+    <div class="ferrari-stripe"></div>
+
+    <nav class="form-nav">
+        <div class="form-nav-brand">Car Price <span>Dekho</span></div>
+        <button class="back-link" onclick="goHome()">← Home</button>
+        <div class="form-nav-step">Step 1 of 2 — Specifications</div>
+    </nav>
+
+    <div class="form-body">
+        <div class="form-heading">
+            <p class="form-heading-label">Enter Details</p>
+            <h2>Car Specifications</h2>
+        </div>
+
+        <form id="predict-form">
+
+            <div class="section-divider">
+                <span class="section-divider-label">Identity</span>
+                <div class="section-divider-line"></div>
+            </div>
+
+            <div class="form-grid">
+                <div class="field span-2">
+                    <label for="car_model">Car Model</label>
+                    <input type="text" id="car_model" name="car_model"
+                        list="models-list"
+                        placeholder="Start typing — e.g. Alto, Swift, Creta…"
+                        autocomplete="off" required>
+                    <datalist id="models-list"></datalist>
+                </div>
+                <div class="field">
+                    <label for="fuel_type">Fuel Type</label>
+                    <div class="select-wrap">
+                        <select id="fuel_type" name="fuel_type" required>
+                            <option value="">— Select —</option>
+                            <option>Petrol</option>
+                            <option>Diesel</option>
+                            <option>CNG</option>
+                            <option>LPG</option>
+                            <option>Electric</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="seller_type">Seller Type</label>
+                    <div class="select-wrap">
+                        <select id="seller_type" name="seller_type" required>
+                            <option value="">— Select —</option>
+                            <option>Individual</option>
+                            <option>Dealer</option>
+                            <option>Trustmark Dealer</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field span-2">
+                    <label for="transmission_type">Transmission</label>
+                    <div class="select-wrap">
+                        <select id="transmission_type" name="transmission_type" required>
+                            <option value="">— Select —</option>
+                            <option>Manual</option>
+                            <option>Automatic</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-divider">
+                <span class="section-divider-label">Technical Specifications</span>
+                <div class="section-divider-line"></div>
+            </div>
+
+            <div class="form-grid">
+                <div class="field">
+                    <label for="vehicle_age">Vehicle Age (Years)</label>
+                    <input type="number" id="vehicle_age" name="vehicle_age" placeholder="e.g. 5" min="0" max="30" required>
+                </div>
+                <div class="field">
+                    <label for="km_driven">Kilometres Driven</label>
+                    <input type="number" id="km_driven" name="km_driven" placeholder="e.g. 45000" min="0" required>
+                </div>
+                <div class="field">
+                    <label for="mileage">Mileage (kmpl)</label>
+                    <input type="number" id="mileage" name="mileage" placeholder="e.g. 18.5" step="0.1" min="0" required>
+                </div>
+                <div class="field">
+                    <label for="engine">Engine Displacement (CC)</label>
+                    <input type="number" id="engine" name="engine" placeholder="e.g. 1197" min="0" required>
+                </div>
+                <div class="field">
+                    <label for="max_power">Max Power (bhp)</label>
+                    <input type="number" id="max_power" name="max_power" placeholder="e.g. 82.0" step="0.1" min="0" required>
+                </div>
+                <div class="field">
+                    <label for="seats">Seats</label>
+                    <input type="number" id="seats" name="seats" placeholder="e.g. 5" min="2" max="10" required>
+                </div>
+            </div>
+
+            <button type="submit" class="calc-btn" id="calc-btn">
+                <span>Calculate Market Price</span>
+            </button>
+
+        </form>
+    </div>
+</section>
+
+<!-- ══════════════════════════════
+     SECTION 3 — RESULT
+══════════════════════════════ -->
+<section id="result-section">
+    <div class="ferrari-stripe"></div>
+
+    <nav class="result-nav">
+        <div class="result-nav-brand">Car Price <span>Dekho</span></div>
+        <button class="back-link" onclick="goForm()">← Recalculate</button>
+        <button class="back-link" onclick="goHome()">Home</button>
+    </nav>
+
+    <div class="result-body">
+
+        <div class="result-reveal" id="result-reveal">
+            <div class="result-label">Estimated Market Value</div>
+            <div class="result-car-name" id="result-car-name">—</div>
+            <div class="result-price-wrap">
+                <div class="result-currency">₹</div>
+                <div class="result-price" id="result-price">0</div>
+            </div>
+            <div class="result-sub">
+                Estimated based on current market conditions across India.
+            </div>
+
+            <div class="result-actions" id="result-actions">
+                <button class="action-btn primary" onclick="goForm()">← Recalculate</button>
+                <button class="action-btn" onclick="goHome()">Back to Home</button>
+            </div>
+        </div>
+
+        <div class="history-wrap" id="history-wrap">
+            <div class="history-head">
+                <div class="history-head-left">
+                    <div class="sub">Session Log</div>
+                    <div class="title">Previous Calculations</div>
+                </div>
+                <button class="clear-btn" onclick="clearHistory()">Clear</button>
+            </div>
+            <div class="empty-state" id="empty-state">No calculations yet</div>
+            <div class="table-scroll" id="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Time</th>
+                            <th>Model</th>
+                            <th>Fuel</th>
+                            <th>Trans.</th>
+                            <th>Age</th>
+                            <th>KM</th>
+                            <th>Engine</th>
+                            <th>Power</th>
+                            <th class="price-col">Est. Price</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+const STORAGE_KEY = 'cpd_v2_history';
+
+// ── Populate datalist ─────────────────────────────────────────────────────────
+fetch('/car_models')
+    .then(r => r.json())
+    .then(models => {
+        const dl = document.getElementById('models-list');
+        models.forEach(m => {
+            const opt = document.createElement('option');
+            opt.value = m;
+            dl.appendChild(opt);
+        });
+    })
+    .catch(() => {});
+
+// ── F1 STARTING LIGHTS ────────────────────────────────────────────────────────
+function runLights() {
+    const ids = ['l1','l2','l3','l4','l5'];
+    // Light up one by one
+    ids.forEach((id, i) => {
+        setTimeout(() => {
+            document.getElementById(id).classList.add('on');
+        }, 400 + i * 380);
+    });
+    // All out — GO!
+    setTimeout(() => {
+        ids.forEach(id => {
+            const el = document.getElementById(id);
+            el.classList.remove('on');
+            el.classList.add('out');
+        });
+    }, 2800);
+}
+
+window.addEventListener('DOMContentLoaded', runLights);
+
+// ── TRANSITION ────────────────────────────────────────────────────────────────
+function launchToForm() {
+    const overlay   = document.getElementById('transition-overlay');
+    const panel     = document.getElementById('transition-panel');
+    const goText    = document.getElementById('transition-go');
+
+    overlay.style.pointerEvents = 'all';
+
+    // Sweep in
+    panel.style.transition = 'transform 0.32s cubic-bezier(0.77,0,0.175,1)';
+    panel.style.transformOrigin = 'left';
+    panel.style.transform = 'scaleX(1)';
+
+    // GO appears mid-sweep
+    setTimeout(() => {
+        goText.style.transition = 'opacity 0.12s ease';
+        goText.style.opacity = '1';
+    }, 180);
+
+    // Sweep out
+    setTimeout(() => {
+        panel.style.transformOrigin = 'right';
+        panel.style.transition = 'transform 0.32s cubic-bezier(0.77,0,0.175,1)';
+        panel.style.transform = 'scaleX(0)';
+        goText.style.transition = 'opacity 0.12s ease';
+        goText.style.opacity = '0';
+    }, 520);
+
+    // Show form
+    setTimeout(() => {
+        overlay.style.pointerEvents = 'none';
+        document.getElementById('home-section').style.display = 'none';
+        const fs = document.getElementById('form-section');
+        fs.style.display = 'flex';
+        fs.style.opacity = '0';
+        fs.style.transition = 'opacity 0.25s ease';
+        requestAnimationFrame(() => { fs.style.opacity = '1'; });
+    }, 780);
+}
+
+document.getElementById('start-btn').addEventListener('click', launchToForm);
+
+// ── NAV ───────────────────────────────────────────────────────────────────────
+function hideAll() {
+    ['home-section','form-section','result-section'].forEach(id => {
+        document.getElementById(id).style.display = 'none';
+    });
+}
+
+function goHome() {
+    hideAll();
+    const hs = document.getElementById('home-section');
+    hs.style.display = 'flex';
+    hs.style.flexDirection = 'column';
+    hs.style.opacity = '0';
+    hs.style.transition = 'opacity 0.3s ease';
+    requestAnimationFrame(() => { hs.style.opacity = '1'; });
+}
+
+function goForm() {
+    hideAll();
+    document.getElementById('calc-btn').querySelector('span').textContent = 'Calculate Market Price';
+    document.getElementById('calc-btn').classList.remove('loading');
+    const fs = document.getElementById('form-section');
+    fs.style.display = 'flex';
+    fs.style.opacity = '0';
+    fs.style.transition = 'opacity 0.3s ease';
+    requestAnimationFrame(() => { fs.style.opacity = '1'; });
+}
+
+// ── FORM SUBMIT ───────────────────────────────────────────────────────────────
+document.getElementById('predict-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('calc-btn');
+    btn.querySelector('span').textContent = 'Calculating…';
+    btn.classList.add('loading');
+
+    const formData = new FormData(this);
+
+    try {
+        const res = await fetch('/predictprice', { method: 'POST', body: formData });
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        const price = data.predicted_price;
+        const carModel = formData.get('car_model');
+
+        saveToHistory({
+            time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}),
+            model: carModel,
+            fuel: formData.get('fuel_type'),
+            transmission: formData.get('transmission_type'),
+            age: formData.get('vehicle_age') + 'y',
+            km: Number(formData.get('km_driven')).toLocaleString('en-IN'),
+            engine: formData.get('engine') + 'cc',
+            power: formData.get('max_power') + 'bhp',
+            price: '₹' + Math.round(price).toLocaleString('en-IN')
+        });
+
+        showResult(price, carModel);
+
+    } catch {
+        const btn = document.getElementById('calc-btn');
+        btn.querySelector('span').textContent = 'Error — please try again';
+        btn.classList.remove('loading');
+        setTimeout(() => {
+            btn.querySelector('span').textContent = 'Calculate Market Price';
+        }, 2500);
+    }
+});
+
+// ── RESULT ────────────────────────────────────────────────────────────────────
+function showResult(price, carName) {
+    hideAll();
+    const rs = document.getElementById('result-section');
+    rs.style.display = 'flex';
+
+    // Reset animated elements
+    ['result-reveal','result-actions','history-wrap'].forEach(id => {
+        document.getElementById(id).classList.remove('show');
+    });
+    document.getElementById('result-price').classList.remove('show');
+
+    document.getElementById('result-car-name').textContent = carName;
+    document.getElementById('result-price').textContent = Math.round(price).toLocaleString('en-IN');
+
+    setTimeout(() => { document.getElementById('result-reveal').classList.add('show'); }, 100);
+    setTimeout(() => { document.getElementById('result-price').classList.add('show'); }, 200);
+    setTimeout(() => { document.getElementById('result-actions').classList.add('show'); }, 500);
+    setTimeout(() => {
+        document.getElementById('history-wrap').classList.add('show');
+        renderHistory();
+    }, 700);
+}
+
+// ── HISTORY ───────────────────────────────────────────────────────────────────
+function getHistory() {
+    try { return JSON.parse(sessionStorage.getItem(STORAGE_KEY)) || []; }
+    catch { return []; }
+}
+
+function saveToHistory(record) {
+    const records = getHistory();
+    records.unshift(record);
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+}
+
+function renderHistory() {
+    const records = getHistory();
+    const tbody = document.getElementById('history-body');
+    const empty = document.getElementById('empty-state');
+    const table = document.getElementById('table-container');
+
+    if (records.length === 0) {
+        empty.classList.add('show');
+        table.style.display = 'none';
+        return;
+    }
+
+    empty.classList.remove('show');
+    table.style.display = 'block';
+    tbody.innerHTML = '';
+
+    records.forEach((r, i) => {
+        const tr = document.createElement('tr');
+        if (i === 0) tr.classList.add('new-row');
+        tr.innerHTML = `
+            <td class="num-cell">${records.length - i}</td>
+            <td class="num-cell">${r.time}</td>
+            <td>${r.model}</td>
+            <td>${r.fuel}</td>
+            <td>${r.transmission}</td>
+            <td>${r.age}</td>
+            <td>${r.km}</td>
+            <td>${r.engine}</td>
+            <td>${r.power}</td>
+            <td class="price-cell">${r.price}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+function clearHistory() {
+    sessionStorage.removeItem(STORAGE_KEY);
+    renderHistory();
+}
+</script>
+</body>
+</html>
